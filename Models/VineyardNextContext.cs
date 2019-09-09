@@ -31,7 +31,6 @@ namespace WebAPIApplication.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-
                 optionsBuilder.UseSqlServer(ConfigurationManager.ConnectionStrings["VineyardNext"].ConnectionString);
             }
         }
