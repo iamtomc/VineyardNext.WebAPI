@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Protocols;
 using System.Configuration;
+using WebAPIApplication.Models;
 
 namespace WebAPIApplication
 {
@@ -25,7 +26,12 @@ namespace WebAPIApplication
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-        services.AddCors(options =>
+                var connection = @"Server=.\sqlexpress;Database=VineyardNext;Trusted_Connection=True;ConnectRetryCount=0";
+                services.AddDbContext<VineyardNextContext>(options => options.UseSqlServer(connection));
+
+
+
+            services.AddCors(options =>
             {
                 options.AddPolicy("AllowSpecificOrigin",
                     builder =>
