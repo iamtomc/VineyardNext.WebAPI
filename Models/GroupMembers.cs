@@ -17,8 +17,6 @@ namespace WebAPIApplication.Models
         public DateTime CreatedDate { get; set; }
         public int MemberId { get; set; }
         public int GroupId { get; set; }
-        public DateTime DateCreated { get; set; }
-        public DateTime DateModified { get; set; }
 
         public virtual Members Member { get; set; }
         public virtual ICollection<Groups> Groups { get; set; }

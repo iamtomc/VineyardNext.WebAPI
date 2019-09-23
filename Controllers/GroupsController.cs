@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using WebAPIApplication.Extensions;
 using WebAPIApplication.Models;
 
 namespace WebAPIApplication.Controllers
@@ -24,7 +25,9 @@ namespace WebAPIApplication.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Groups>>> GetAllGroups()
         {
-            return await _context.Groups.ToListAsync();
+            var groups = await _context.Groups.ToListAsync();
+            groups = Converter.SanitizeGroups(groups);
+            return groups.ToList();
         }
 
         // GET: api/Groups/5
@@ -36,6 +39,11 @@ namespace WebAPIApplication.Controllers
             if (groups == null)
             {
                 return NotFound();
+            }
+
+            if (!User.Identity.IsAuthenticated)
+            {
+                return Converter.SanitizeGroup(groups);
             }
 
             return groups;
