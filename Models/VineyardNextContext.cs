@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -20,6 +19,7 @@ namespace WebAPIApplication.Models
         public virtual DbSet<Auth0> Auth0 { get; set; }
         public virtual DbSet<ContactMethods> ContactMethods { get; set; }
         public virtual DbSet<FamilyMembers> FamilyMembers { get; set; }
+        public virtual DbSet<Friends> Friends { get; set; }
         public virtual DbSet<GroupAddresses> GroupAddresses { get; set; }
         public virtual DbSet<GroupMembers> GroupMembers { get; set; }
         public virtual DbSet<Groups> Groups { get; set; }
@@ -31,7 +31,7 @@ namespace WebAPIApplication.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-               optionsBuilder.UseSqlServer(ConfigurationManager.ConnectionStrings["VineyardNext"].ConnectionString);
+                optionsBuilder.UseSqlServer("Server=.\\sqlexpress;Database=VineyardNext;Trusted_Connection=True;");
             }
         }
 
@@ -44,14 +44,6 @@ namespace WebAPIApplication.Models
                 entity.Property(e => e.CreatedBy).HasMaxLength(256);
 
                 entity.Property(e => e.UpdatedBy).HasMaxLength(256);
-
-                entity.HasOne(d => d.GroupAddresses)
-                    .WithMany(p => p.Addresses)
-                    .HasForeignKey(d => d.GroupAddressesId);
-
-                entity.HasOne(d => d.MemberAddresses)
-                    .WithMany(p => p.Addresses)
-                    .HasForeignKey(d => d.MemberAddressesId);
             });
 
             modelBuilder.Entity<Auth0>(entity =>
@@ -77,12 +69,6 @@ namespace WebAPIApplication.Models
                     .HasMaxLength(200);
 
                 entity.Property(e => e.MemberId).HasColumnName("MemberID");
-
-                entity.HasOne(d => d.Member)
-                    .WithMany(p => p.Auth0)
-                    .HasForeignKey(d => d.MemberId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Auth0_MemberAddresses");
             });
 
             modelBuilder.Entity<ContactMethods>(entity =>
@@ -90,10 +76,6 @@ namespace WebAPIApplication.Models
                 entity.Property(e => e.CreatedBy).HasMaxLength(256);
 
                 entity.Property(e => e.UpdatedBy).HasMaxLength(256);
-
-                entity.HasOne(d => d.MemberContacts)
-                    .WithMany(p => p.ContactMethods)
-                    .HasForeignKey(d => d.MemberContactsId);
             });
 
             modelBuilder.Entity<FamilyMembers>(entity =>
@@ -101,12 +83,6 @@ namespace WebAPIApplication.Models
                 entity.Property(e => e.CreatedBy).HasMaxLength(256);
 
                 entity.Property(e => e.UpdatedBy).HasMaxLength(256);
-
-                entity.HasOne(d => d.Member)
-                    .WithMany(p => p.FamilyMembers)
-                    .HasForeignKey(d => d.MemberId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_FamilyMembers_Members");
             });
 
             modelBuilder.Entity<GroupAddresses>(entity =>
@@ -121,12 +97,6 @@ namespace WebAPIApplication.Models
                 entity.Property(e => e.CreatedBy).HasMaxLength(256);
 
                 entity.Property(e => e.UpdatedBy).HasMaxLength(256);
-
-                entity.HasOne(d => d.Member)
-                    .WithMany(p => p.GroupMembers)
-                    .HasForeignKey(d => d.MemberId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_GroupMembers_Members");
             });
 
             modelBuilder.Entity<Groups>(entity =>
@@ -134,14 +104,6 @@ namespace WebAPIApplication.Models
                 entity.Property(e => e.CreatedBy).HasMaxLength(256);
 
                 entity.Property(e => e.UpdatedBy).HasMaxLength(256);
-
-                entity.HasOne(d => d.GroupAddresses)
-                    .WithMany(p => p.Groups)
-                    .HasForeignKey(d => d.GroupAddressesId);
-
-                entity.HasOne(d => d.GroupMembers)
-                    .WithMany(p => p.Groups)
-                    .HasForeignKey(d => d.GroupMembersId);
             });
 
             modelBuilder.Entity<MemberAddresses>(entity =>
@@ -149,12 +111,6 @@ namespace WebAPIApplication.Models
                 entity.Property(e => e.CreatedBy).HasMaxLength(256);
 
                 entity.Property(e => e.UpdatedBy).HasMaxLength(256);
-
-                entity.HasOne(d => d.Member)
-                    .WithMany(p => p.MemberAddresses)
-                    .HasForeignKey(d => d.MemberId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_MemberAddresses_Members");
             });
 
             modelBuilder.Entity<MemberContacts>(entity =>
@@ -162,12 +118,6 @@ namespace WebAPIApplication.Models
                 entity.Property(e => e.CreatedBy).HasMaxLength(256);
 
                 entity.Property(e => e.UpdatedBy).HasMaxLength(256);
-
-                entity.HasOne(d => d.Member)
-                    .WithMany(p => p.MemberContacts)
-                    .HasForeignKey(d => d.MemberId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_MemberContacts_Members");
             });
 
             modelBuilder.Entity<Members>(entity =>

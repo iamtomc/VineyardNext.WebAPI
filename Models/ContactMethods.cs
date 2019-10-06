@@ -18,7 +18,5 @@ namespace WebAPIApplication.Models
         public DateTime DateCreated { get; set; }
         public DateTime DateModified { get; set; }
         public int? MemberContactsId { get; set; }
-
-        public virtual MemberContacts MemberContacts { get; set; }
     }
 }

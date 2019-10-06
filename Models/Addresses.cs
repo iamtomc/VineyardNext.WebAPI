@@ -20,12 +20,5 @@ namespace WebAPIApplication.Models
         public string AddressType { get; set; }
         public bool IsActive { get; set; }
         public string PrivacyFlag { get; set; }
-        public DateTime DateCreated { get; set; }
-        public DateTime DateModified { get; set; }
-        public int? GroupAddressesId { get; set; }
-        public int? MemberAddressesId { get; set; }
-
-        public virtual GroupAddresses GroupAddresses { get; set; }
-        public virtual MemberAddresses MemberAddresses { get; set; }
     }
 }

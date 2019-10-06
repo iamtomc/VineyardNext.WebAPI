@@ -13,7 +13,5 @@ namespace WebAPIApplication.Models
         public string Auth0Nickname { get; set; }
         public string Auth0Name { get; set; }
         public bool? Merged { get; set; }
-
-        public virtual MemberAddresses Member { get; set; }
     }
 }

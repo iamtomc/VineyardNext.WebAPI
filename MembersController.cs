@@ -7,9 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebAPIApplication.Models;
 
-namespace WebAPIApplication.Controllers
+namespace WebAPIApplication
 {
-    [Route("api/members")]
+    [Route("api/[controller]")]
     [ApiController]
     public class MembersController : ControllerBase
     {

@@ -5,12 +5,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using WebAPIApplication.Extensions;
 using WebAPIApplication.Models;
 
-namespace WebAPIApplication.Controllers
+namespace WebAPIApplication
 {
-    [Route("api/groups")]
+    [Route("api/[controller]")]
     [ApiController]
     public class GroupsController : ControllerBase
     {
@@ -23,16 +22,23 @@ namespace WebAPIApplication.Controllers
 
         // GET: api/Groups
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Groups>>> GetAllGroups()
+        public async Task<ActionResult<IEnumerable<Groups>>> GetGroups()
         {
-            var groups = await _context.Groups.ToListAsync();
-            groups = Converter.SanitizeGroups(groups);
-            return groups.ToList();
+            List<Groups> groups = await _context.Groups.Where(g => g.IsActive == true).ToListAsync();
+            return Ok(groups);
+        }
+
+        // GET: api/Groups/Inactive
+        [HttpGet("Inactive")]
+        public async Task<ActionResult<IEnumerable<Groups>>> GetInActiveGroups()
+        {
+            List<Groups> groups = await _context.Groups.Where(g => g.IsActive == false).ToListAsync();
+            return Ok(groups);
         }
 
         // GET: api/Groups/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Groups>> GetGroupsById(int id)
+        public async Task<ActionResult<Groups>> GetGroups(int id)
         {
             var groups = await _context.Groups.FindAsync(id);
 
@@ -41,17 +47,12 @@ namespace WebAPIApplication.Controllers
                 return NotFound();
             }
 
-            if (!User.Identity.IsAuthenticated)
-            {
-                return Converter.SanitizeGroup(groups);
-            }
-
             return groups;
         }
 
         // PUT: api/Groups/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutGroups(int id, Groups groups)
+        public async Task<IActionResult> PutGroups(int id, [FromBody] Groups groups)
         {
             if (id != groups.Id)
             {
@@ -81,7 +82,7 @@ namespace WebAPIApplication.Controllers
 
         // POST: api/Groups
         [HttpPost]
-        public async Task<ActionResult<Groups>> PostGroups(Groups groups)
+        public async Task<ActionResult<Groups>> PostGroups([FromBody] Groups groups)
         {
             _context.Groups.Add(groups);
             await _context.SaveChangesAsync();

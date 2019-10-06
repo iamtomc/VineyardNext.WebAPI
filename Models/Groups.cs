@@ -24,12 +24,5 @@ namespace WebAPIApplication.Models
         public string DaysOfWeek { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-        public DateTime DateCreated { get; set; }
-        public DateTime DateModified { get; set; }
-        public int? GroupAddressesId { get; set; }
-        public int? GroupMembersId { get; set; }
-
-        public virtual GroupAddresses GroupAddresses { get; set; }
-        public virtual GroupMembers GroupMembers { get; set; }
     }
 }

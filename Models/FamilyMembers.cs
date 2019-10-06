@@ -16,9 +16,5 @@ namespace WebAPIApplication.Models
         public bool IsMember { get; set; }
         public bool IsActive { get; set; }
         public string Status { get; set; }
-        public DateTime DateCreated { get; set; }
-        public DateTime DateModified { get; set; }
-
-        public virtual Members Member { get; set; }
     }
 }
