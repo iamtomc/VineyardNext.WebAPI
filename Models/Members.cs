@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebAPIApplication.Models
 {
@@ -16,7 +17,6 @@ namespace WebAPIApplication.Models
         public string Picture { get; set; }
         public string ProviderId { get; set; }
         public DateTime? UpdatedAt { get; set; }
-        public string Privacy { get; set; }
         public DateTimeOffset? Birthday { get; set; }
     }
 }

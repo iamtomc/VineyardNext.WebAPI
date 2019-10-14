@@ -59,6 +59,9 @@ namespace WebAPIApplication
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("read:messages", policy => policy.Requirements.Add(new HasScopeRequirement("read:messages", domain)));
+                options.AddPolicy("pastor", policy => policy.Requirements.Add(new HasScopeRequirement("pastor", domain)));
+                options.AddPolicy("ministry", policy => policy.Requirements.Add(new HasScopeRequirement("minstry", domain)));
+                options.AddPolicy("groupLeader", policy => policy.Requirements.Add(new HasScopeRequirement("groupLeader", domain)));
             });
 
             // Register the scope authorization handler

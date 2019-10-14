@@ -36,6 +36,18 @@ namespace WebAPIApplication.Extensions
             return over15;
         }
 
+        public Members SanitizeMember(Members member)
+        {
+            member.FirstName = "";
+            member.LastName = "";
+            member.FullName = "";
+            member.Email = "";
+            member.Birthday = null;
+            member.Nickname = "";
+            member.Picture = "";
+
+            return member;
+        }
 
     }
 }
